@@ -1,0 +1,30 @@
+services:
+  25rp19168-php:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: 25rp19168-php-app
+    ports:
+      - "8088:80"
+    volumes:
+      - ./src:/var/www/html
+    container_name: 25rp19168-php-app
+    restart: unless-stopped
+
+  # Optional: Add MySQL database
+  25rp19168-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: student_mis
+      MYSQL_USER: mis_user
+      MYSQL_PASSWORD: mis_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    container_name: 25rp19168-mysql-db
+    restart: unless-stopped
+
+volumes:
+  db_data:
